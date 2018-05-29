@@ -20,6 +20,9 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switch';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/count';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-box',
@@ -33,6 +36,9 @@ export class SearchBoxComponent implements OnInit {
     private el: ElementRef) { }
 
   ngOnInit() {
+
+    // console.log(Observable.fromEvent(this.el.nativeElement, 'keyup').count());
+
     Observable.fromEvent(this.el.nativeElement, 'keyup')
       .map((e: any) => e.target.value)
       .filter((text: string) => text.length > 1)
@@ -43,7 +49,7 @@ export class SearchBoxComponent implements OnInit {
       .subscribe(
       (result: SearchResult[]) => {
         this.loading.emit(false);
-        this.results.emit(result)
+        this.results.emit(result);
       },
       (err: any) => {
         console.log(err);
@@ -52,7 +58,7 @@ export class SearchBoxComponent implements OnInit {
       () => {
         this.loading.emit(false);
       }
-      )
+      );
   }
 
 }

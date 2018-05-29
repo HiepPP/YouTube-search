@@ -41,6 +41,8 @@ export class YouTubeSearchService {
 
         return this.http.get(queryUrl).map(
             (response: Response) => {
+                console.log(<any>response);
+                console.log(<any>response.json());
                 return (<any>response.json()).items.map(item => {
                     return new SearchResult({
                         id: item.id.videoId,
